@@ -31,6 +31,9 @@ dependencies {
     compile "com.android.support:design:${rootProject.ext.supportLibVersion}"
     testCompile 'junit:junit:4.12'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile "org.jetbrains.anko:anko-sdk15:${rootProject.ext.ankoVersion}"
+    compile "org.jetbrains.anko:anko-support-v4:${rootProject.ext.ankoVersion}"
+    compile "org.jetbrains.anko:anko-appcompat-v7:${rootProject.ext.ankoVersion}"
     compile project(':library')
 }
 repositories {
