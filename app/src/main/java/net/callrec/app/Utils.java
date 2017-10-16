@@ -16,7 +16,7 @@ public class Utils {
     public static String getDefaultPath(Context context) {
         return String.format("%s%s",
                 Utils.normalDir(Environment.getExternalStorageDirectory().getAbsolutePath()),
-                "CallRecTest");
+                "CallRecTest/");
     }
 
     private static String normalDir(String dir) {
