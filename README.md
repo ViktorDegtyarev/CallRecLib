@@ -1,5 +1,9 @@
 # CallRecLib
 This library provides code which can resolve the problem of recording phone conversations on Android 6.
+# List of applications using this library
+[CallRec.net](https://callrec.net)
+
+[CallRec in Google Play] (https://play.google.com/store/apps/details?id=com.CallRecord)
 # License
 Copyright 2017 Viktor Degtyarev
 
