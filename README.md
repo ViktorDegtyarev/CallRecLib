@@ -4,6 +4,10 @@ This library provides code which can resolve the problem of recording phone conv
 [CallRec.net](http://callrec.net)
 
 [CallRec in Google Play] (https://play.google.com/store/apps/details?id=com.CallRecord)
+
+# How to run the example
+For the example application to work, you need to give permissions in the system settings
+
 # License
 Copyright 2017 Viktor Degtyarev
 
