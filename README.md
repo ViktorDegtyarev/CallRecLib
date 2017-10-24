@@ -8,6 +8,10 @@ This library provides code which can resolve the problem of recording phone conv
 # How to run the example
 For the example application to work, you need to give permissions in the system settings
 
+# Сommunity
+I created a channel to solve the problem of recording phone conversations on Android 7. Join the channel!
+https://gitter.im/CallRec-net
+
 # License
 Copyright 2017 Viktor Degtyarev
 
