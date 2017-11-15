@@ -1,9 +1,9 @@
 # CallRecLib
-This library provides code which can resolve the problem of recording phone conversations on Android 6.
-# List of applications using this library
-[CallRec.net](http://callrec.net)
+Call Recorder fix for Android 7 and Android 6.
 
-[CallRec in Google Play] (https://play.google.com/store/apps/details?id=com.CallRecord)
+This library provides code which can resolve the problem of recording phone conversations on Android 7 and Android 6.
+# List of applications using this library
+[CallRec.net](http://callrec.net) or [Google Play](https://play.google.com/store/apps/details?id=com.CallRecord)
 
 # How to run the example
 For the example application to work, you need to give permissions in the system settings
