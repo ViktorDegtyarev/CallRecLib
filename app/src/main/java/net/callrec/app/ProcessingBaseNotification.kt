@@ -2,6 +2,7 @@ package net.callrec.app
 
 import android.app.Service
 import android.content.Intent
+import net.callrec.library.recorder.base.RecorderBase
 import org.jetbrains.anko.notificationManager
 
 /**

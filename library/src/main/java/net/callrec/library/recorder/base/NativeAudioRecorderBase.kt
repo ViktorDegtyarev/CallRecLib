@@ -1,14 +1,18 @@
-package net.callrec.app
+package net.callrec.library.recorder.base
 
+import android.annotation.SuppressLint
 import android.media.AudioFormat
 import android.media.AudioRecord
+import net.callrec.library.recorder.AudioRecordNative
+import net.callrec.library.recorder.AudioFormatNative
 
 /**
- * Created by Viktor Degtyarev on 16.10.17
+ * Created by Viktor Degtyarev on 12.10.17
  * E-mail: viktor@degtyarev.biz
+ * Copyright (c) 2017 Viktor Degtyarev. All rights reserved.
  */
-abstract class AudioRecorderBase(val audioSource: Int, val sampleRateInHz: Int, val channelConfig: Int, val audioEncoding: Int, val outputFile: String) : RecorderBase() {
-    var audioRecord: AudioRecord? = null
+abstract class NativeAudioRecorderBase(val audioSource: Int, val sampleRateInHz: Int, val channelConfig: Int, val audioEncoding: Int, val outputFile: String) : RecorderBase() {
+    var audioRecord: AudioRecordNative? = null
     var audioRecordingThread: Thread? = null
     var bufferSizeInBytes = 0
 
@@ -16,15 +20,17 @@ abstract class AudioRecorderBase(val audioSource: Int, val sampleRateInHz: Int, 
         get() = outputFile
 
     override val audioSessionId: Int
-        get() = audioRecord!!.audioSessionId
+        get() = 0
 
     init {
         prepare()
     }
 
+    @SuppressLint("NewApi")
     @Throws(RecorderException::class)
     override fun prepare() {
         bufferSizeInBytes = AudioRecord.getMinBufferSize(sampleRateInHz, channelConfig, audioEncoding)
+//        bufferSizeInBytes = AudioRecordNative.getFrameCount(sampleRateInHz, audioEncoding, channelConfig)
 
         if (bufferSizeInBytes == AudioRecord.ERROR || bufferSizeInBytes == AudioRecord.ERROR_BAD_VALUE) {
             if (this.channelConfig == AudioFormat.CHANNEL_IN_STEREO) {
@@ -32,12 +38,19 @@ abstract class AudioRecorderBase(val audioSource: Int, val sampleRateInHz: Int, 
                         "Failed to get the minimum buffer size. The device may not support stereo recording.",
                         CodeError.ERROR_BUFFER_SIZE_STEREO)
             } else {
-                throw RecorderException("Failed to get the minimum buffer size. ", CodeError.ERROR_BUFFER_SIZE)
+                throw RecorderException("Failed to get the minimum buffer size.", CodeError.ERROR_BUFFER_SIZE)
             }
         }
 
         try {
-            audioRecord = AudioRecord(this.audioSource, this.sampleRateInHz, channelConfig, this.audioEncoding, bufferSizeInBytes)
+            AudioRecordNative.nativeInit()
+            try {
+                Thread.sleep(150)
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+            }
+            audioRecord = AudioRecordNative(this.audioSource, this.sampleRateInHz,
+                    AudioFormatNative.AUDIO_FORMAT_PCM_16_BIT, AudioFormatNative.AUDIO_CHANNEL_IN_MONO, bufferSizeInBytes)
         } catch (e: Exception) {
             throw RecorderException(
                     "Failed to initialize an instance of the AudioRecord class.",
@@ -45,23 +58,18 @@ abstract class AudioRecorderBase(val audioSource: Int, val sampleRateInHz: Int, 
                     CodeError.ERROR_INITIALIZE_RECORDER
             )
         }
-
-        if (audioRecord!!.state != AudioRecord.STATE_INITIALIZED) throw RecorderException(
-                "Failed to initialize an instance of the AudioRecord class.",
-                CodeError.ERROR_INITIALIZE_RECORDER
-        )
     }
 
+    //    @SuppressLint("NewApi")
     @Throws(RecorderException::class)
     override fun start() {
         audioRecord ?: return
 
         try {
-            audioRecord!!.startRecording()
+            audioRecord!!.start()
             startTimeRecording = System.currentTimeMillis()
             state = State.RECORD
         } catch (e: Exception) {
-            audioRecord!!.release()
             state = State.STOP
             throw RecorderException(
                     String.format("AudioRecorder failed to start. Recording file: %s", filePath),
@@ -84,7 +92,6 @@ abstract class AudioRecorderBase(val audioSource: Int, val sampleRateInHz: Int, 
         try {
             state = State.STOP
             audioRecord!!.stop()
-            audioRecord!!.release()
         } catch (e: Exception) {
             e.printStackTrace()
         }

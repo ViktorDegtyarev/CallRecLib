@@ -7,6 +7,8 @@ import android.media.AudioFormat
 import android.os.Build
 import android.os.Handler
 import net.callrec.library.fix.RecorderHelper
+import net.callrec.library.recorder.AudioRecorder
+import net.callrec.library.recorder.base.RecorderBase
 
 /**
  * Created by Viktor Degtyarev on 16.10.17
@@ -63,6 +65,17 @@ abstract class ProcessingBase(val context: Context) : IProcessing {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     recorderHelper.startFixCallRecorder(context, recorder!!.audioSessionId)
+                    startFixWavFormat = true
+                }
+            }
+
+            TypeRecorder.WAV_NATIVE -> {
+                val channelConfig = if (stereoChannel) AudioFormat.CHANNEL_IN_STEREO else AudioFormat.CHANNEL_IN_MONO
+                recorder = RecorderFactory.createNativeWavRecorder(audioSource, samplingRate, channelConfig,
+                        AudioFormat.ENCODING_PCM_16BIT, filePathNoFormat)
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    recorderHelper.startFixCallRecorder7(context)
                     startFixWavFormat = true
                 }
             }
@@ -182,7 +195,7 @@ abstract class ProcessingBase(val context: Context) : IProcessing {
         val OUT = 2
     }
 
-    enum class TypeRecorder { WAV }
+    enum class TypeRecorder { WAV, WAV_NATIVE }
 
     inner class RecorderRunnable : Runnable {
         override fun run() {

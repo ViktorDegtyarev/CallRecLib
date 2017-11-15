@@ -45,6 +45,18 @@ public class RecorderHelper {
         CallRecorderFixHelper.getInstance().stopFix();
     }
 
+    public boolean startFixCallRecorder7(Context context) {
+        if (isPermissionAudioSettingsModify(context)) {
+            CallRecorderFixHelper.getInstance().initialize();
+
+            CallRecorderFixHelper.getInstance().startFix7();
+
+            return true;
+        }
+
+        return false;
+    }
+
     private boolean isPermissionAudioSettingsModify(Context context) {
         int permissionCheck = ContextCompat.checkSelfPermission(context,
                 Manifest.permission.MODIFY_AUDIO_SETTINGS);

@@ -52,4 +52,22 @@ public class CallRecorderFixHelper {
         CallRecorderFix.stopFix();
     }
 
+    public void startFix7() {
+        CallRecorderFix.startFix7();
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void stopFix7() {
+        try {
+            Thread.sleep(120);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        CallRecorderFix.stopFix();
+    }
+
 }

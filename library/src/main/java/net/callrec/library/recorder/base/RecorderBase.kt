@@ -1,4 +1,6 @@
-package net.callrec.app
+package net.callrec.library.recorder.base
+
+import net.callrec.library.recorder.AudioRecorder
 
 /**
  * Created by Viktor Degtyarev on 16.10.17

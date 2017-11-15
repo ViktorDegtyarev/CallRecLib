@@ -21,6 +21,7 @@ package net.callrec.library.fix;
 public class CallRecorderFix {
     public static native int load();
     public static native int startFix(int i2);
+    public static native int startFix7();
     public static native int stopFix();
     static {
         LibLoader.loadLib();

@@ -1,7 +1,9 @@
-package net.callrec.app
+package net.callrec.library.recorder
 
 import android.media.AudioFormat
 import android.media.AudioRecord
+import net.callrec.library.recorder.base.AudioRecorderBase
+import net.callrec.library.recorder.base.RecorderBase
 
 import java.io.FileNotFoundException
 import java.io.IOException
